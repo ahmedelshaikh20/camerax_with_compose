@@ -18,12 +18,12 @@ class CameraViewModel @Inject constructor() : ViewModel() {
 
   fun onEvent(event: CameraScreenEvents) {
     when (event) {
-      CameraScreenEvents.onSwitchCameraClick -> {
+      CameraScreenEvents.OnSwitchCameraClick -> {
         state =
           state.copy(selectedCamera = if (state.selectedCamera == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA)
       }
 
-      is CameraScreenEvents.onTakePhotoClick -> {
+      is CameraScreenEvents.OnTakePhotoClick -> {
         CameraFileUtils.takePicture(event.imageCapture, event.context)
       }
     }

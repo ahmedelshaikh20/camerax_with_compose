@@ -5,8 +5,8 @@ import androidx.camera.core.ImageCapture
 
 sealed class CameraScreenEvents {
 
-  object onSwitchCameraClick : CameraScreenEvents()
-  data class onTakePhotoClick(val imageCapture: ImageCapture, val context: Context) : CameraScreenEvents()
+  object OnSwitchCameraClick : CameraScreenEvents()
+  data class OnTakePhotoClick(val imageCapture: ImageCapture, val context: Context) : CameraScreenEvents()
 
 
 

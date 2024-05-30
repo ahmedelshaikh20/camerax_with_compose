@@ -83,8 +83,8 @@ fun CameraX(cameraPermission: Boolean , viewModel: CameraViewModel= hiltViewMode
       CameraContent(
         modifier = Modifier,
         state.selectedCamera,
-        onSwitchClick = { viewModel.onEvent(CameraScreenEvents.onSwitchCameraClick) },
-        onTakePhotoClick = {viewModel.onEvent(CameraScreenEvents.onTakePhotoClick(imageCapture , localContext))},
+        onSwitchClick = { viewModel.onEvent(CameraScreenEvents.OnSwitchCameraClick) },
+        onTakePhotoClick = {viewModel.onEvent(CameraScreenEvents.OnTakePhotoClick(imageCapture , localContext))},
         imageCapture = imageCapture,
         context = localContext
       )
@@ -136,9 +136,9 @@ fun CameraContent(
     val imageAnalysis = ImageAnalysis.Builder()
       .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
       .build().apply {
-        setAnalyzer(executor, FaceDetectionAnalyzer { meshes, width, height ->
+        setAnalyzer(executor, FaceDetectionAnalyzer { listFaces, width, height ->
           faces.clear()
-          faces.addAll(meshes)
+          faces.addAll(listFaces)
           imageWidth.value = width
           imageHeight.value = height
 
