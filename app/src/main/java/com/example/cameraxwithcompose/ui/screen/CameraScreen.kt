@@ -50,12 +50,12 @@ import com.example.cameraxwithcompose.viewmodel.CameraViewModel
 import com.google.mlkit.vision.face.Face
 
 @Composable
-fun CameraX(cameraPermission: Boolean , viewModel: CameraViewModel= hiltViewModel()) {
+fun CameraX(cameraPermission: Boolean, viewModel: CameraViewModel = hiltViewModel()) {
   val state = viewModel.state
   val localContext = LocalContext.current
   val displayManager = localContext.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
   val rotation = displayManager.getDisplay(Display.DEFAULT_DISPLAY)?.rotation ?: Surface.ROTATION_0
-  val imageCapture= remember {
+  val imageCapture = remember {
     ImageCapture.Builder()
       .setTargetRotation(rotation)
       .build()
@@ -84,7 +84,14 @@ fun CameraX(cameraPermission: Boolean , viewModel: CameraViewModel= hiltViewMode
         modifier = Modifier,
         state.selectedCamera,
         onSwitchClick = { viewModel.onEvent(CameraScreenEvents.OnSwitchCameraClick) },
-        onTakePhotoClick = {viewModel.onEvent(CameraScreenEvents.OnTakePhotoClick(imageCapture , localContext))},
+        onTakePhotoClick = {
+          viewModel.onEvent(
+            CameraScreenEvents.OnTakePhotoClick(
+              imageCapture,
+              localContext
+            )
+          )
+        },
         imageCapture = imageCapture,
         context = localContext
       )
@@ -131,8 +138,7 @@ fun CameraContent(
     val preview = Preview.Builder().build().apply {
       setSurfaceProvider(previewView.surfaceProvider)
     }
-
-
+    // This anlayzer where the images will be through to detect face in
     val imageAnalysis = ImageAnalysis.Builder()
       .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
       .build().apply {
@@ -147,6 +153,8 @@ fun CameraContent(
 
     try {
       cameraProvider.unbindAll()
+      //We bind Camera provider to the current lifecycle with usecases
+      //image capture for capturing image
       cameraProvider.bindToLifecycle(
         lifecycleOwner,
         selectedCamera,
@@ -175,15 +183,19 @@ fun CameraContent(
       })
     }
     BasicButton(
-      modifier = Modifier.align(Alignment.BottomStart).padding(5.dp),
+      modifier = Modifier
+        .align(Alignment.BottomStart)
+        .padding(5.dp),
       value = "Take Photo",
       onClick = {
-      onTakePhotoClick()
+        onTakePhotoClick()
       }
     )
 
     BasicButton(
-      modifier = Modifier.align(Alignment.BottomEnd).padding(5.dp),
+      modifier = Modifier
+        .align(Alignment.BottomEnd)
+        .padding(5.dp),
       value = "Switch the Camera",
       onClick = {
         Log.d("Camera Selection", "Camera Clicked")
@@ -220,7 +232,7 @@ fun DrawFaces(
       val topLeft = PointF(boundingBox.left * scaleX, boundingBox.top * scaleY)
       val size = Size(boundingBox.width() * scaleX, boundingBox.height() * scaleY)
 
-      drawBounds(topLeft, size, Color.Yellow, 5f)
+      drawBounds(topLeft, size, Color.Yellow, 10f)
     }
   }
 }

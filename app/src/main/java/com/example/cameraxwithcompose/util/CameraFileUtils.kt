@@ -41,7 +41,7 @@ object CameraFileUtils {
       .enableTracking()
       .build()
     val detector = FaceDetection.getClient(options)
-    val ioExecutor = Executors.newSingleThreadExecutor()
+    val ioExecutor = Executors.newCachedThreadPool()
     val photoFile = File(
       Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
       SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(System.currentTimeMillis()) + ".jpeg"
