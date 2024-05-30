@@ -125,7 +125,6 @@ fun CameraContent(
   val imageWidth = remember { mutableStateOf(0) }
   val imageHeight = remember { mutableStateOf(0) }
 
-  // Configure face detector options
   val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
 
 
