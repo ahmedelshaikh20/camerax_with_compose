@@ -8,8 +8,11 @@ import androidx.lifecycle.ViewModel
 import com.example.cameraxwithcompose.ui.screen.CameraScreenEvents
 import com.example.cameraxwithcompose.ui.screen.CameraScreenState
 import com.example.cameraxwithcompose.util.CameraFileUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class CameraViewModel : ViewModel() {
+@HiltViewModel
+class CameraViewModel @Inject constructor() : ViewModel() {
 
   var state by mutableStateOf(CameraScreenState())
 
@@ -20,7 +23,6 @@ class CameraViewModel : ViewModel() {
           state.copy(selectedCamera = if (state.selectedCamera == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA)
       }
 
-      CameraScreenEvents.openCameraClick -> TODO()
       is CameraScreenEvents.onTakePhotoClick -> {
         CameraFileUtils.takePicture(event.imageCapture, event.context)
       }

@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,24 +35,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.cameraxwithcompose.ml.FaceDetectionAnalyzer
 import com.example.cameraxwithcompose.ui.components.BasicButton
-import com.example.cameraxwithcompose.util.adjustPoint
-import com.example.cameraxwithcompose.util.adjustSize
 import com.example.cameraxwithcompose.util.drawBounds
 import com.example.cameraxwithcompose.viewmodel.CameraViewModel
 import com.google.mlkit.vision.face.Face
 
 @Composable
-fun CameraX(modifier: Modifier, viewModel: CameraViewModel, cameraPermission: Boolean) {
+fun CameraX(cameraPermission: Boolean , viewModel: CameraViewModel= hiltViewModel()) {
   val state = viewModel.state
   val localContext = LocalContext.current
   val displayManager = localContext.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
@@ -82,7 +81,7 @@ fun CameraX(modifier: Modifier, viewModel: CameraViewModel, cameraPermission: Bo
 
     AnimatedVisibility(visible = isCameraGranted) {
       CameraContent(
-        modifier = Modifier.weight(0.7f),
+        modifier = Modifier,
         state.selectedCamera,
         onSwitchClick = { viewModel.onEvent(CameraScreenEvents.onSwitchCameraClick) },
         onTakePhotoClick = {viewModel.onEvent(CameraScreenEvents.onTakePhotoClick(imageCapture , localContext))},
@@ -176,7 +175,7 @@ fun CameraContent(
       })
     }
     BasicButton(
-      modifier = Modifier.align(Alignment.BottomStart),
+      modifier = Modifier.align(Alignment.BottomStart).padding(5.dp),
       value = "Take Photo",
       onClick = {
       onTakePhotoClick()
@@ -184,10 +183,10 @@ fun CameraContent(
     )
 
     BasicButton(
-      modifier = Modifier.align(Alignment.BottomEnd),
+      modifier = Modifier.align(Alignment.BottomEnd).padding(5.dp),
       value = "Switch the Camera",
       onClick = {
-        Log.d("Camera Selction", "Camera Clicked")
+        Log.d("Camera Selection", "Camera Clicked")
         onSwitchClick()
       }
     )

@@ -8,7 +8,6 @@ sealed class CameraScreenEvents {
   object onSwitchCameraClick : CameraScreenEvents()
   data class onTakePhotoClick(val imageCapture: ImageCapture, val context: Context) : CameraScreenEvents()
 
-  object openCameraClick : CameraScreenEvents()
 
 
 }
