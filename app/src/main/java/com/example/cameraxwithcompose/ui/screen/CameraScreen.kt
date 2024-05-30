@@ -125,6 +125,7 @@ fun CameraContent(
   val imageWidth = remember { mutableStateOf(0) }
   val imageHeight = remember { mutableStateOf(0) }
 
+  // Configure face detector options
   val cameraProviderFuture = remember { ProcessCameraProvider.getInstance(context) }
 
 
@@ -137,7 +138,7 @@ fun CameraContent(
     val preview = Preview.Builder().build().apply {
       setSurfaceProvider(previewView.surfaceProvider)
     }
-    // This anlayzer where the images will be through to detect faces in
+    // This anlayzer where the images will be through to detect face in
     val imageAnalysis = ImageAnalysis.Builder()
       .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
       .build().apply {
